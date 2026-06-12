@@ -1,91 +1,69 @@
-# Deploying egghouse.studio — morning runbook
+# Deploying egghouse.studio
 
-Your site is built and SEO-optimized in the **`site/`** folder:
+The site is hosted on **GitHub Pages** from this repo (`EggHouse-Studios/egghouse-site`, public) and served at the custom domain **egghouse.studio**. DNS is managed at **Squarespace**; email stays on **Google Workspace** (untouched).
+
+## Repo layout
+
+The site files live at the **repo root** (GitHub Pages serves them at the apex domain):
 
 ```
-site/
-├── index.html      ← the website (clean, self-contained)
-├── og-image.png    ← social-share preview image
-├── robots.txt      ← search-engine crawl rules
-└── sitemap.xml     ← page index for Google/Bing
+index.html      ← the website (clean, self-contained)
+og-image.png    ← social-share preview image
+robots.txt      ← search-engine crawl rules
+sitemap.xml     ← page index for Google/Bing
+CNAME           ← tells GitHub Pages the custom domain is egghouse.studio
 ```
 
-Plan: **GitHub Pages** (free hosting) + **DNS stays at Squarespace**.
+## How deploys work now
 
----
+This is a git repo with `origin → github.com/EggHouse-Studios/egghouse-site`. **To publish a change, just push to `main`:**
 
-## Step 1 — Create a free GitHub account
-1. Go to https://github.com/signup
-2. Use whatever email you like (your new `hello@egghouse.studio` is fine once it works, or any email).
-3. Pick a username — e.g. `egghouse-studios` (this becomes part of your free URL).
+```bash
+# from this folder
+# edit index.html (or assets), then:
+git add -A
+git commit -m "Update site copy"
+git push
+```
 
-## Step 2 — Create the repository
-1. Click the **+** (top-right) → **New repository**.
-2. Name it `egghouse-site`. Set it to **Public**. Click **Create repository**.
+GitHub Pages rebuilds automatically within ~1 minute. No manual upload, no separate hosting step.
 
-## Step 3 — Upload the site files
-1. On the new repo page, click **uploading an existing file** (or **Add file → Upload files**).
-2. Drag in the **contents of the `site/` folder** — i.e. `index.html`, `og-image.png`, `robots.txt`, `sitemap.xml`.
-   ⚠️ Upload the *files themselves*, not the `site` folder, so `index.html` sits at the repo root.
-3. Click **Commit changes**.
+Check build status / config:
 
-## Step 4 — Turn on GitHub Pages
-1. In the repo, go to **Settings → Pages**.
-2. Under **Build and deployment → Source**, choose **Deploy from a branch**.
-3. Branch: **main**, folder: **/ (root)**. Click **Save**.
-4. Wait ~1 minute. A live URL appears: `https://<username>.github.io/egghouse-site/`. Open it to confirm it works.
+```bash
+gh api repos/EggHouse-Studios/egghouse-site/pages/builds/latest --jq '.status'
+gh api repos/EggHouse-Studios/egghouse-site/pages --jq '{cname,https_enforced,status}'
+```
 
-## Step 5 — Connect your domain (in GitHub)
-1. Still in **Settings → Pages → Custom domain**, type: `egghouse.studio`  → **Save**.
-   (GitHub adds a `CNAME` file to your repo automatically.)
-2. Leave **Enforce HTTPS** unchecked for now — you'll check it after DNS propagates (Step 7).
+## DNS (one-time, at Squarespace)
 
-## Step 6 — Add DNS records at Squarespace
-Log in at https://account.squarespace.com → your domain → **DNS / DNS Settings**.
-
-**a) Remove the existing parking records** first:
-- Delete any existing `A` records on host `@` that point to Squarespace IPs (`198.185.159.x` / `198.49.23.x`).
-- Delete the existing `www` `CNAME` if it points to Squarespace.
-
-**b) Add these four A records** (host `@`, the apex):
+The apex (`egghouse.studio`) points at GitHub Pages via four `A` records; `www` is a CNAME to the org's Pages domain. **MX/email records are separate and must stay in place.**
 
 | Type | Host | Value |
-|------|------|--------------------|
+|------|------|--------------------------|
 | A | @ | `185.199.108.153` |
 | A | @ | `185.199.109.153` |
 | A | @ | `185.199.110.153` |
 | A | @ | `185.199.111.153` |
+| CNAME | www | `egghouse-studios.github.io` |
 
-**c) Add the www redirect:**
-
-| Type | Host | Value |
-|------|------|----------------------------|
-| CNAME | www | `<username>.github.io` |
-
-*(Replace `<username>` with your real GitHub username. Note: just `username.github.io`, with no `/egghouse-site` path.)*
-
-**Optional (IPv6, nice to have)** — four AAAA records on host `@`:
+Optional IPv6 — four `AAAA` records on host `@`:
 `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`
 
-> 📧 **Email note:** Any `MX` records for your `hello@egghouse.studio` mailbox are *separate* and do **not** conflict with the records above. Leave your email's MX (and any TXT/SPF/DKIM) records in place.
+After DNS propagates (~15 min–2 hrs), GitHub auto-issues a Let's Encrypt cert. Then enforce HTTPS:
 
-## Step 7 — Finish (later that day)
-1. DNS takes ~15 min–2 hrs (occasionally up to 24 hrs) to propagate.
-2. Visit `https://egghouse.studio` — it should load your site.
-3. Back in **GitHub → Settings → Pages**, tick **Enforce HTTPS** (it becomes available once the cert is issued).
+```bash
+gh api -X PUT repos/EggHouse-Studios/egghouse-site/pages -f https_enforced=true
+```
 
-## Step 8 — Tell Google about it (SEO)
-1. Go to https://search.google.com/search-console → **Add property** → enter `egghouse.studio`.
-2. Verify (easiest with the domain — Google gives you one TXT record to add at Squarespace).
-3. Once verified: **Sitemaps** → submit `https://egghouse.studio/sitemap.xml`.
-4. This gets you indexed faster and shows search performance over time.
+## SEO (one-time)
 
----
+1. [Google Search Console](https://search.google.com/search-console) → **Add property** → `egghouse.studio` (verify via a TXT record at Squarespace).
+2. **Sitemaps** → submit `https://egghouse.studio/sitemap.xml`.
 
-## Updating the site later
-Edit `index.html` directly in GitHub (pencil icon) or re-upload — changes go live in ~1 min.
+## Verifying it's live
 
-## When you're back, I can help with:
-- Installing the `gh` CLI so future updates are one command.
-- Setting up `hello@egghouse.studio` email DNS (MX records) if you haven't finished that.
-- Verifying the live site, checking the social preview, and confirming Search Console.
+```bash
+dig +short egghouse.studio A          # should show the 185.199.108-111.153 IPs
+curl -sI https://egghouse.studio | head -1   # HTTP/2 200
+```
