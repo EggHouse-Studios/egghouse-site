@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  .card {
+    position: relative; width: 1200px; height: 630px;
+    background: #F2F1ED; color: #141311;
+    font-family: 'Schibsted Grotesk', sans-serif;
+    overflow: hidden;
+  }
+  .egg { border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%; }
+
+  /* right-side decorative eggs */
+  .blob { position: absolute; right: 56px; top: 50%; transform: translateY(-50%) rotate(12deg);
+          width: 290px; height: 366px; background: #D84B1F; }
+  .ring { position: absolute; right: 176px; top: 50%; transform: translateY(-46%) rotate(-8deg);
+          width: 290px; height: 366px; border: 1.5px solid #141311; }
+
+  /* content */
+  .wordmark { position: absolute; left: 78px; top: 78px; display: flex; align-items: center; gap: 16px; }
+  .wordmark .dot { width: 26px; height: 33px; background: #D84B1F; }
+  .wordmark .name { font-size: 30px; font-weight: 800; letter-spacing: 0.01em; }
+  .eyebrow { position: absolute; left: 80px; top: 168px;
+             font-size: 25px; font-weight: 700; letter-spacing: 0.07em; color: #6E6A5F; }
+  .title { position: absolute; left: 74px; top: 238px;
+           font-size: 150px; line-height: 0.92; font-weight: 900; letter-spacing: -0.045em; }
+  .url { position: absolute; left: 80px; top: 548px;
+         font-size: 33px; font-weight: 700; letter-spacing: -0.01em; color: #D84B1F; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="ring egg"></div>
+    <div class="blob egg"></div>
+    <div class="wordmark"><div class="dot egg"></div><div class="name">EGGHOUSE STUDIO</div></div>
+    <div class="eyebrow">A PRODUCT HATCHERY — SEATTLE, WA</div>
+    <h1 class="title">EGG<br>HOUSE</h1>
+    <div class="url">egghouse.studio</div>
+  </div>
+</body>
+</html>
