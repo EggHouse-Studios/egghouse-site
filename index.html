@@ -38,13 +38,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-  html, body { margin: 0; padding: 0; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  html, body { margin: 0; padding: 0; overflow-x: hidden; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  *, *::before, *::after { box-sizing: border-box; }
   a { text-decoration: none; }
   .lyra-card { transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s; }
   .lyra-card:hover { transform: translateY(-4px); border-color: #D84B1F; box-shadow: 0 24px 54px rgba(20, 19, 17, 0.1); }
   .email-link { transition: color 0.2s; }
   .email-link:hover { color: #D84B1F; }
   .nav-link:hover { color: #D84B1F; }
+
+  /* ---- Mobile ---- */
+  @media (max-width: 720px) {
+    .eh-nav { flex-wrap: wrap !important; gap: 12px 0 !important; padding: 18px 22px !important; }
+    .eh-nav-links { gap: 18px !important; flex-wrap: wrap !important; }
+    .eh-hero { padding: 60px 22px 64px !important; }
+    .eh-hero-blob { width: 230px !important; height: 290px !important; right: -70px !important; }
+    .eh-hero-ring { display: none !important; }
+    .eh-section { padding: 0 22px !important; }
+    .eh-grid { grid-template-columns: 1fr !important; gap: 18px !important; }
+    .eh-card { padding: 32px 28px !important; }
+    .eh-footer { padding: 0 22px !important; }
+    .eh-quote { font-size: 21px !important; }
+  }
 </style>
 
 <script type="application/ld+json">
@@ -87,12 +102,12 @@
 
 <div style="background: #F2F1ED; color: #141311; font-family: 'Schibsted Grotesk', sans-serif; min-height: 100vh; padding-bottom: 120px">
 
-  <nav style="display: flex; align-items: center; justify-content: space-between; padding: 24px 40px; border-bottom: 1px solid #E2DDD0">
+  <nav class="eh-nav" style="display: flex; align-items: center; justify-content: space-between; padding: 24px 40px; border-bottom: 1px solid #E2DDD0">
     <div style="display: flex; align-items: center; gap: 10px">
       <div style="width: 13px; height: 17px; background: #D84B1F; border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%"></div>
       <span style="font-weight: 700; font-size: 16px; letter-spacing: -0.01em">EggHouse Studios</span>
     </div>
-    <div style="display: flex; gap: 26px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em">
+    <div class="eh-nav-links" style="display: flex; gap: 26px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em">
       <a class="nav-link" href="#projects" style="color: #141311">PROJECTS</a>
       <a class="nav-link" href="#story" style="color: #141311">STORY</a>
       <a class="nav-link" href="#about" style="color: #141311">ABOUT</a>
@@ -100,9 +115,9 @@
     </div>
   </nav>
 
-  <header style="position: relative; padding: 90px 40px 90px; overflow: hidden">
-    <div style="position: absolute; right: -60px; top: 50%; transform: translateY(-50%) rotate(12deg); width: 340px; height: 430px; background: #D84B1F; border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%"></div>
-    <div style="position: absolute; right: 120px; top: 50%; transform: translateY(-46%) rotate(-8deg); width: 340px; height: 430px; border: 1px solid #141311; border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%"></div>
+  <header class="eh-hero" style="position: relative; padding: 90px 40px 90px; overflow: hidden">
+    <div class="eh-hero-blob" style="position: absolute; right: -60px; top: 50%; transform: translateY(-50%) rotate(12deg); width: 340px; height: 430px; background: #D84B1F; border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%"></div>
+    <div class="eh-hero-ring" style="position: absolute; right: 120px; top: 50%; transform: translateY(-46%) rotate(-8deg); width: 340px; height: 430px; border: 1px solid #141311; border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%"></div>
     <div style="position: relative">
       <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.2em; color: #6E6A5F; margin-bottom: 26px">AN INCUBATION STUDIO — SEATTLE, WA</div>
       <h1 style="margin: 0; font-size: clamp(72px, 11vw, 150px); line-height: 0.92; font-weight: 900; letter-spacing: -0.045em">EGG<br>HOUSE</h1>
@@ -110,13 +125,13 @@
     </div>
   </header>
 
-  <section id="projects" style="max-width: 1160px; margin: 10px auto 0; padding: 0 40px">
+  <section id="projects" class="eh-section" style="max-width: 1160px; margin: 10px auto 0; padding: 0 40px">
     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 26px">
       <div style="width: 26px; height: 33px; background: #D84B1F; border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%"></div>
       <h2 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.2em">01 / NOW INCUBATING</h2>
     </div>
-    <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 28px">
-      <a class="lyra-card" href="https://lyraresume.com" target="_blank" rel="noopener" style="display: block; background: #FFFFFF; border: 1px solid #E5E0D2; border-radius: 24px; box-shadow: 0 14px 40px rgba(20, 19, 17, 0.06); padding: 40px 44px; color: #141311">
+    <div class="eh-grid" style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 28px">
+      <a class="lyra-card eh-card" href="https://lyraresume.com" target="_blank" rel="noopener" style="display: block; background: #FFFFFF; border: 1px solid #E5E0D2; border-radius: 24px; box-shadow: 0 14px 40px rgba(20, 19, 17, 0.06); padding: 40px 44px; color: #141311">
         <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px">
           <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.16em; color: #D84B1F; border: 1px solid #ECB59C; padding: 8px 14px; border-radius: 999px; white-space: nowrap">IN INCUBATION</span>
           <span style="font-size: 28px; font-weight: 600; color: #D84B1F">→</span>
@@ -131,17 +146,17 @@
     </div>
   </section>
 
-  <section id="story" style="max-width: 1160px; margin: 90px auto 0; padding: 0 40px">
+  <section id="story" class="eh-section" style="max-width: 1160px; margin: 90px auto 0; padding: 0 40px">
     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 26px">
       <div style="width: 26px; height: 33px; border: 1px solid #141311; border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%"></div>
       <h2 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.2em">02 / WHY “EGGHOUSE”</h2>
     </div>
-    <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 28px">
-      <div style="background: #141311; color: #F2F1ED; border-radius: 24px; box-shadow: 0 20px 50px rgba(20, 19, 17, 0.18); padding: 44px 48px">
-        <p style="margin: 0; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.55; font-weight: 500; letter-spacing: -0.01em; text-wrap: pretty">“In 2000, just out of college, a diviner in Côte d’Ivoire gave me an instruction: bury eggs in a swamp to ground my life ahead. Soon after I did my career started. Fifteen years later, I moved into a house near the spot — and EggHouse was born.”</p>
+    <div class="eh-grid" style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 28px">
+      <div class="eh-card" style="background: #141311; color: #F2F1ED; border-radius: 24px; box-shadow: 0 20px 50px rgba(20, 19, 17, 0.18); padding: 44px 48px">
+        <p class="eh-quote" style="margin: 0; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.55; font-weight: 500; letter-spacing: -0.01em; text-wrap: pretty">“In 2000, just out of college, a diviner in Côte d’Ivoire gave me an instruction: bury eggs in a swamp to ground my life ahead. Soon after I did my career started. Fifteen years later, I moved into a house near the spot — and EggHouse was born.”</p>
         <p style="margin: 26px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; color: #F0784A">— CAREY DIJULIO, FOUNDER</p>
       </div>
-      <div style="background: #FFFFFF; border: 1px solid #E5E0D2; border-radius: 24px; box-shadow: 0 14px 40px rgba(20, 19, 17, 0.06); padding: 44px; display: flex; flex-direction: column; justify-content: space-between; gap: 36px">
+      <div class="eh-card" style="background: #FFFFFF; border: 1px solid #E5E0D2; border-radius: 24px; box-shadow: 0 14px 40px rgba(20, 19, 17, 0.06); padding: 44px; display: flex; flex-direction: column; justify-content: space-between; gap: 36px">
         <p style="margin: 0; font-size: 17px; line-height: 1.6; font-weight: 500; color: #45423B; text-wrap: pretty">EggHouse runs on that same energy — grounding, future-divining, incubating. Hatch the idea. Give it time. Grow what works.</p>
         <div style="display: flex; gap: 12px; align-items: flex-end">
           <div style="width: 26px; height: 33px; background: #D84B1F; border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%"></div>
@@ -152,18 +167,18 @@
     </div>
   </section>
 
-  <section id="about" style="max-width: 1160px; margin: 90px auto 0; padding: 0 40px">
+  <section id="about" class="eh-section" style="max-width: 1160px; margin: 90px auto 0; padding: 0 40px">
     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 26px">
       <div style="width: 26px; height: 33px; background: #141311; border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%"></div>
       <h2 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.2em">03 / BEHIND THE STUDIO</h2>
     </div>
-    <div style="position: relative; overflow: hidden; background: #FFFFFF; border: 1px solid #E5E0D2; border-radius: 24px; box-shadow: 0 14px 40px rgba(20, 19, 17, 0.06); padding: 44px 48px">
+    <div class="eh-card" style="position: relative; overflow: hidden; background: #FFFFFF; border: 1px solid #E5E0D2; border-radius: 24px; box-shadow: 0 14px 40px rgba(20, 19, 17, 0.06); padding: 44px 48px">
       <div style="position: absolute; right: -40px; bottom: -70px; width: 170px; height: 215px; background: #D84B1F; opacity: 0.14; transform: rotate(14deg); border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%"></div>
       <p style="position: relative; max-width: 780px; margin: 0; font-size: 19px; line-height: 1.6; font-weight: 500; text-wrap: pretty">EggHouse is run by <strong style="font-weight: 700;">Carey DiJulio</strong> — a Seattle-based product and business leader with 25 years in tech, from the early days of streaming at RealNetworks, to a decade of leadership at Big Fish Games, to CEO role at Ripl where she created Alkai - the world's first AI social media assistant.&nbsp; She holds an M.S. in Information Management, University of Washington and a B.S. in Behavioral Science from Drew University.</p>
     </div>
   </section>
 
-  <footer style="max-width: 1160px; margin: 100px auto 0; padding: 0 40px">
+  <footer class="eh-footer" style="max-width: 1160px; margin: 100px auto 0; padding: 0 40px">
     <a class="email-link" href="mailto:hello@egghouse.studio" style="display: block; font-size: clamp(30px, 4.5vw, 60px); font-weight: 700; letter-spacing: -0.03em; color: #141311">hello@egghouse.studio</a>
     <p style="margin: 24px 0 0; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; color: #8B887F">egghouse.studio · Seattle, WA · © 2026</p>
   </footer>
