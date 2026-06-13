@@ -53,13 +53,22 @@ Optional IPv6 — four `AAAA` records on host `@`:
 After DNS propagates (~15 min–2 hrs), GitHub auto-issues a Let's Encrypt cert. Then enforce HTTPS:
 
 ```bash
-gh api -X PUT repos/EggHouse-Studios/egghouse-site/pages -f https_enforced=true
+printf '{"https_enforced":true}' | gh api -X PUT repos/EggHouse-Studios/egghouse-site/pages --input -
 ```
+
+> **Gotcha (learned the hard way):** if the cert never issues — `.https_certificate.state` stays `null` for hours and the served cert stays `CN=*.github.io` — GitHub's provisioning queue is wedged. This happens when the custom domain was first set while DNS was still propagating, or when repeated rebuilds keep resetting it. **Fix: cleanly toggle the custom domain off and back on, with no builds in between**, then it issues in seconds:
+> ```bash
+> printf '{"cname":null}'              | gh api -X PUT repos/EggHouse-Studios/egghouse-site/pages --input -   # remove
+> # wait for the build to finish (gh api .../pages --jq .status == "built")
+> printf '{"cname":"egghouse.studio"}' | gh api -X PUT repos/EggHouse-Studios/egghouse-site/pages --input -   # re-add
+> ```
+> Each toggle makes the Pages bot commit `Delete CNAME`/`Create CNAME` to the repo, so `git fetch && git rebase origin/main` afterward to resync local.
 
 ## SEO (one-time)
 
-1. [Google Search Console](https://search.google.com/search-console) → **Add property** → `egghouse.studio` (verify via a TXT record at Squarespace).
-2. **Sitemaps** → submit `https://egghouse.studio/sitemap.xml`.
+1. [Google Search Console](https://search.google.com/search-console) → **Add property** → **Domain** → `egghouse.studio`. Because the domain is on **Google Workspace**, Search Console **auto-verifies** ownership (the `google-site-verification` TXT record is already present) — no DNS step needed.
+2. **Sitemaps** → submit `sitemap.xml`. *(Done 2026-06-12.)*
+3. Optional: **URL inspection** → enter `https://egghouse.studio/` → **Request indexing** to nudge a faster first crawl.
 
 ## Verifying it's live
 
